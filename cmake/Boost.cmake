@@ -1,5 +1,5 @@
 include(FetchContent)
-set(BOOST_INCLUDE_LIBRARIES lockfree)
+set(BOOST_INCLUDE_LIBRARIES statechart)
 set(BOOST_ENABLE_CMAKE ON)
 FetchContent_Declare(
 	Boost
