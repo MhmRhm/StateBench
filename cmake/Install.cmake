@@ -3,7 +3,7 @@ include(GNUInstallDirs)
 set(BOOST_TARGETS boost_statechart boost_assert boost_bind boost_config
     boost_conversion boost_core boost_detail boost_function boost_mpl
     boost_smart_ptr boost_static_assert boost_thread boost_type_traits
-    boost_throw_exception boost_typeof boost_integer boost_type_index
+    boost_throw_exception boost_typeof boost_integer
     boost_atomic boost_chrono boost_concept_check boost_container
     boost_container_hash boost_date_time boost_exception boost_intrusive
     boost_io boost_iterator boost_move boost_optional boost_predef
