@@ -13,7 +13,7 @@ set_target_properties(statebench PROPERTIES
     PUBLIC_HEADER src/infrastructure/include/infrastructure/infrastructure.h
     POSITION_INDEPENDENT_CODE 1
 )
-target_link_libraries(statebench PRIVATE precompiled Boost::statechart "$<$<PLATFORM_ID:UNIX>:atomic>")
+target_link_libraries(statebench PRIVATE precompiled Boost::statechart Qt6::Core "$<$<PLATFORM_ID:UNIX>:atomic>")
 BuildInfo(statebench)
 
 include(Format)
