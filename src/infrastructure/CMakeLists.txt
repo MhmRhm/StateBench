@@ -1,31 +1,22 @@
-add_library(infrastructure_obj OBJECT
+add_executable(statebench
 	infrastructure.cpp
 )
-target_compile_options(infrastructure_obj
+target_compile_options(statebench
 	PRIVATE ${DEFAULT_CXX_COMPILE_FLAGS}
 	PRIVATE ${DEFAULT_CXX_OPTIMIZE_FLAG}
 )
-target_include_directories(infrastructure_obj INTERFACE
+target_include_directories(statebench INTERFACE
 	"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
 	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
-set_target_properties(infrastructure_obj PROPERTIES
+set_target_properties(statebench PROPERTIES
     PUBLIC_HEADER src/infrastructure/include/infrastructure/infrastructure.h
     POSITION_INDEPENDENT_CODE 1
 )
-target_link_libraries(infrastructure_obj PRIVATE precompiled Boost::statechart "$<$<PLATFORM_ID:UNIX>:atomic>")
-BuildInfo(infrastructure_obj)
+target_link_libraries(statebench PRIVATE precompiled Boost::statechart "$<$<PLATFORM_ID:UNIX>:atomic>")
+BuildInfo(statebench)
 
-add_library(infrastructure_shared SHARED)
-target_link_libraries(infrastructure_shared infrastructure_obj)
-add_library(infrastructure_static STATIC)
-target_link_libraries(infrastructure_static infrastructure_obj)
-
-include(Coverage)
-CleanCoverage(infrastructure_static)
 include(Format)
-Format(infrastructure_static .)
-include(CppCheck)
-AddCppCheck(infrastructure_obj)
+Format(statebench .)
 include(Doxygen)
-Doxygen(infrastructure src/infrastructure)
+Doxygen(statebench src/infrastructure)
