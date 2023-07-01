@@ -1,4 +1,6 @@
 #pragma once
+#include "QCoreApplication"
+#include "QStateMachine"
 #include "boost/statechart/simple_state.hpp"
 #include "boost/statechart/state_machine.hpp"
 #include <iostream>

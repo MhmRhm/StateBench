@@ -1,12 +1,22 @@
 #include "include/infrastructure/infrastructure.h"
 
-int main() {
+int main(int argc, char **argv) {
+  QCoreApplication app(argc, argv);
+  QStateMachine qmachine;
+  QState qstate(&qmachine);
+  qmachine.setInitialState(&qstate);
+  qstate.connect(
+      &qstate, &QState::entered, &qstate,
+      []() {
+        std::cout << "Entered!" << std::endl;
+        QCoreApplication::instance()->exit();
+      },
+      Qt::DirectConnection);
+  qmachine.start();
+  app.exec();
+
   Machine myMachine;
-  // The machine is not yet running after construction. We start
-  // it by calling initiate(). This triggers the construction of
-  // the initial state Greeting
   myMachine.initiate();
-  // When we leave main(), myMachine is destructed what leads to
-  // the destruction of all currently active states.
+
   return 0;
 }
