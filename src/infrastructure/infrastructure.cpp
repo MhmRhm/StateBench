@@ -1,10 +1,11 @@
 #include "include/infrastructure/infrastructure.h"
 
 void benchQt(int argc, char **argv) {
+  using namespace std::chrono;
   QCoreApplication app(argc, argv);
 
   size_t iterations{};
-  std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
+  time_point<high_resolution_clock> startTime;
 
   QTimer timer;
   timer.setSingleShot(true);
@@ -28,15 +29,15 @@ void benchQt(int argc, char **argv) {
 
   QObject::connect(&starting, &QState::exited, [&]() {
     timer.start(10000);
-    startTime = std::chrono::system_clock::now();
+    startTime = system_clock::now();
   });
   QObject::connect(&third, &QState::entered, [&]() {
     QCoreApplication::processEvents();
     iterations += 1;
   });
   QObject::connect(&stopping, &QState::entered, [&]() {
-    auto duration{std::chrono::high_resolution_clock::now() - startTime};
-    auto msecs{std::chrono::duration_cast<std::chrono::milliseconds>(duration)};
+    auto duration{high_resolution_clock::now() - startTime};
+    auto msecs{duration_cast<milliseconds>(duration)};
     std::cout << double(iterations) / (double(msecs.count()) / 1000)
               << " (iterations/sec)" << std::endl;
     QCoreApplication::instance()->exit();
@@ -46,9 +47,20 @@ void benchQt(int argc, char **argv) {
   app.exec();
 }
 
-void benchBoost() {}
+void benchBoost() {
+  using namespace std::chrono;
+  time_point<high_resolution_clock> endTime{high_resolution_clock::now() + 10s};
+
+  Machine machine{};
+  machine.initiate();
+  while (endTime > high_resolution_clock::now()) {
+    machine.process_event(ProceedEvent{});
+  }
+  machine.process_event(TimeoutEvent{});
+}
 
 int main(int argc, char **argv) {
   benchQt(argc, argv);
+  benchBoost();
   return 0;
 }
