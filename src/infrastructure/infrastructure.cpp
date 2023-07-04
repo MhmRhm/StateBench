@@ -29,7 +29,7 @@ void benchQt(int argc, char **argv) {
 
   QObject::connect(&starting, &QState::exited, [&]() {
     timer.start(10000);
-    startTime = system_clock::now();
+    startTime = high_resolution_clock::now();
   });
   QObject::connect(&third, &QState::entered, [&]() {
     QCoreApplication::processEvents();
